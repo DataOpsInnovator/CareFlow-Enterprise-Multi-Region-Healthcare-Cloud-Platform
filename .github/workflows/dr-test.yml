@@ -7,6 +7,6 @@ jobs:
     environment: dr-test
     steps:
     - uses: actions/checkout@v4
-    - uses: aws-actions/configure-aws-credentials@v4
+    - uses: aws-actions/configure-aws-credentials@v6
       with: {role-to-assume: "${{ secrets.AWS_DR_TEST_ROLE_ARN }}", aws-region: us-east-1}
     - run: ./scripts/dr-readiness.sh
