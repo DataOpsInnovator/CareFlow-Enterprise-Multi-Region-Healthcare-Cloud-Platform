@@ -1,0 +1,3 @@
+* @REPLACE_WITH_GITHUB_ORG/platform-engineering
+/security/ @REPLACE_WITH_GITHUB_ORG/security-engineering
+/terraform/ @REPLACE_WITH_GITHUB_ORG/cloud-platform

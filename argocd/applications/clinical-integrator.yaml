@@ -1,0 +1,8 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: {name: clinical-integrator, namespace: argocd}
+spec:
+  project: careflow
+  source: {repoURL: REPLACE_WITH_GIT_REPOSITORY_URL, targetRevision: main, path: helm/clinical-integrator}
+  destination: {server: https://kubernetes.default.svc, namespace: careflow}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=true]}

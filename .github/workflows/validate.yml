@@ -1,0 +1,48 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Repository validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install Python test dependencies
+        run: python -m pip install --upgrade pip pytest pyyaml checkov
+
+      - name: Terraform format
+        run: terraform fmt -recursive -check terraform
+
+      - name: Terraform validation
+        run: ./scripts/terraform-validate.sh
+
+      - name: Helm validation
+        run: ./scripts/helm-lint.sh
+
+      - name: Python tests
+        run: pytest -q services/patient-api/tests tests/app tests/policies tests/security

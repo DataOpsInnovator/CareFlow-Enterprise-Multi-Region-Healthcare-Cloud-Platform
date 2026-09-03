@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: event-worker}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: {matchLabels: {app: event-worker}}
+  template:
+    metadata: {labels: {app: event-worker}}
+    spec:
+      serviceAccountName: event-worker
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+      - name: event-worker
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: ["ALL"]}}
+        resources: {{ toYaml .Values.resources | nindent 10 }}

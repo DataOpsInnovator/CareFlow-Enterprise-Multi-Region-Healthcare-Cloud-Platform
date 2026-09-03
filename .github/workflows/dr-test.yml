@@ -1,0 +1,12 @@
+name: dr-test
+on: {workflow_dispatch: {}, schedule: [{cron: "0 13 1 */3 *"}]}
+permissions: {contents: read, id-token: write}
+jobs:
+  validate-dr:
+    runs-on: ubuntu-latest
+    environment: dr-test
+    steps:
+    - uses: actions/checkout@v4
+    - uses: aws-actions/configure-aws-credentials@v4
+      with: {role-to-assume: "${{ secrets.AWS_DR_TEST_ROLE_ARN }}", aws-region: us-east-1}
+    - run: ./scripts/dr-readiness.sh

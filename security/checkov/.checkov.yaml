@@ -1,0 +1,6 @@
+framework: terraform,kubernetes,dockerfile
+compact: true
+quiet: false
+soft-fail: false
+skip-check:
+  - CKV_AWS_144 # cross-region replication is configured per production environment and validated separately

@@ -1,0 +1,12 @@
+{
+  "resourceType": "Patient",
+  "id": "synthetic-001",
+  "active": true,
+  "name": [
+    {
+      "family": "Example",
+      "given": ["Synthetic"]
+    }
+  ],
+  "gender": "unknown"
+}

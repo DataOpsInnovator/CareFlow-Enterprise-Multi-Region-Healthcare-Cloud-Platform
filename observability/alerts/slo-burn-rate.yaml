@@ -1,0 +1,8 @@
+groups:
+- name: careflow-burn-rate
+  rules:
+  - alert: CareFlowHighErrorBudgetBurn
+    expr: (1 - careflow:http_success:ratio5m) > (14.4 * 0.001)
+    for: 5m
+    labels: {severity: page}
+    annotations: {summary: "CareFlow is consuming error budget too quickly", runbook: "docs/runbooks/incident-response.md"}

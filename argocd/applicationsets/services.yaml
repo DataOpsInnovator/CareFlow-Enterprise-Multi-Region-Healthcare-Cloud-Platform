@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: careflow-services
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: patient-api
+            path: helm/patient-api
+  template:
+    metadata:
+      name: "careflow-{{name}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/example/careflow-multiregion-platform.git
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{name}}"

@@ -1,0 +1,13 @@
+groups:
+  - name: careflow-slo
+    rules:
+      - alert: PatientApiHighErrorRate
+        expr: |
+          sum(rate(http_requests_total{job="patient-api",status=~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total{job="patient-api"}[5m])) > 0.01
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Patient API error rate is above the portfolio threshold."

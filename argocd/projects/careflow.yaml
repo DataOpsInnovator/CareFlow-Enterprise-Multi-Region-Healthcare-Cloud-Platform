@@ -1,0 +1,7 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata: {name: careflow, namespace: argocd}
+spec:
+  sourceRepos: ["REPLACE_WITH_GIT_REPOSITORY_URL"]
+  destinations: [{namespace: careflow, server: https://kubernetes.default.svc}]
+  clusterResourceWhitelist: [{group: "", kind: Namespace}, {group: networking.k8s.io, kind: NetworkPolicy}]

@@ -1,0 +1,23 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: careflow-service
+  title: CareFlow Service
+  description: Golden-path template for a secure service
+spec:
+  owner: platform-team
+  type: service
+  parameters:
+    - title: Service information
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Lowercase service name
+  steps:
+    - id: fetch
+      name: Fetch template
+      action: fetch:template
+      input:
+        url: ./skeleton

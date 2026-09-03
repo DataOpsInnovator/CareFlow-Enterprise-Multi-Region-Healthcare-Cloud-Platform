@@ -1,0 +1,5 @@
+apiVersion: v2
+name: event-worker
+version: 0.1.0
+type: application
+appVersion: "1.0.0"

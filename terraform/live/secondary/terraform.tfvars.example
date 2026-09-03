@@ -1,0 +1,8 @@
+aws_region="us-west-2"
+region_short="usw2"
+vpc_cidr="10.30.0.0/16"
+azs=["us-west-2a","us-west-2b","us-west-2c"]
+private_subnets=["10.30.0.0/20","10.30.16.0/20","10.30.32.0/20"]
+public_subnets=["10.30.96.0/24","10.30.97.0/24","10.30.98.0/24"]
+database_subnets=["10.30.64.0/24","10.30.65.0/24","10.30.66.0/24"]
+clinical_data_bucket="REPLACE_WITH_GLOBALLY_UNIQUE_SECONDARY_BUCKET"

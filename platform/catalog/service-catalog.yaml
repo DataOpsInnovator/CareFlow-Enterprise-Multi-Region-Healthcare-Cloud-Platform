@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: patient-api
+  description: Synthetic patient-access API
+  annotations:
+    careflow.dev/data-classification: synthetic
+    careflow.dev/runbook: docs/runbooks/incident-response.md
+spec:
+  type: service
+  lifecycle: portfolio
+  owner: platform-team

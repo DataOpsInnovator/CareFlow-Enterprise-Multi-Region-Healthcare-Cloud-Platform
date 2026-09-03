@@ -1,0 +1,16 @@
+{
+  "name": "careflow-final-enterprise-platform",
+  "classification": "portfolio-production-oriented",
+  "synthetic_data_only": true,
+  "required_validation": [
+    "security-review",
+    "load-test",
+    "restore-test",
+    "regional-failover",
+    "observability-verification",
+    "cost-controls",
+    "operational-signoff"
+  ],
+  "portfolio_status": "github-ready",
+  "public_repo_checklist": "PUBLIC-REPO-CHECKLIST.md"
+}

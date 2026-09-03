@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: clinical-integrator}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: {matchLabels: {app: clinical-integrator}}
+  template:
+    metadata: {labels: {app: clinical-integrator}}
+    spec:
+      serviceAccountName: clinical-integrator
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+      - name: clinical-integrator
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: ["ALL"]}}
+        resources: {{ toYaml .Values.resources | nindent 10 }}

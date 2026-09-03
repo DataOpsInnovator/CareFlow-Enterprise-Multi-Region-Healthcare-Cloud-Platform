@@ -1,0 +1,19 @@
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "6.7.0"
+  name = var.name
+  cidr = var.cidr
+  azs  = var.azs
+  private_subnets = var.private_subnets
+  public_subnets  = var.public_subnets
+  database_subnets = var.database_subnets
+  enable_nat_gateway = true
+  single_nat_gateway = false
+  one_nat_gateway_per_az = true
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  create_database_subnet_group = true
+  enable_flow_log = true
+  flow_log_destination_type = "cloud-watch-logs"
+  tags = var.tags
+}

@@ -1,0 +1,25 @@
+name: teardown
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to destroy
+        required: true
+        default: dev
+      confirm:
+        description: Type DESTROY to authorize
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  destroy:
+    if: ${{ github.event.inputs.confirm == 'DESTROY' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform -chdir=terraform/live/dev init
+      - run: terraform -chdir=terraform/live/dev destroy -auto-approve

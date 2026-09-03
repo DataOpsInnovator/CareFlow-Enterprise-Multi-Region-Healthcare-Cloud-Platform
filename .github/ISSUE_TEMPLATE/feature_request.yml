@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose a platform or portfolio improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Security, reliability and cost trade-offs
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan

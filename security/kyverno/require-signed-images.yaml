@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-signed-images-reference
+spec:
+  validationFailureAction: Audit
+  background: false
+  rules:
+    - name: signed-images
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      validate:
+        message: "Portfolio policy placeholder: configure Sigstore verification before enforcing."
+        pattern:
+          metadata:
+            annotations:
+              "careflow.dev/image-policy": "?*"

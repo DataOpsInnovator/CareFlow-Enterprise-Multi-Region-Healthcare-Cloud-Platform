@@ -1,0 +1,31 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: careflow-security-baseline
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: require-non-root
+    match:
+      any:
+      - resources: {kinds: [Pod], namespaces: [careflow]}
+    validate:
+      message: "Containers must be non-root and must not allow privilege escalation."
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+  - name: require-readonly-root
+    match:
+      any:
+      - resources: {kinds: [Pod], namespaces: [careflow]}
+    validate:
+      message: "Containers must use a read-only root filesystem."
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              readOnlyRootFilesystem: true

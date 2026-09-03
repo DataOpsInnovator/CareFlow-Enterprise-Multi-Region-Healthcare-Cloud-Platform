@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "patient-api.fullname" . }}
+spec:
+  selector:
+    app.kubernetes.io/name: patient-api
+  ports:
+    - port: 80
+      targetPort: 8080

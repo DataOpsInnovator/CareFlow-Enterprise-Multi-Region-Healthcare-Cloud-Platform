@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/REPLACE_WITH_GITHUB_ORG/careflow-enterprise-platform/security/advisories/new
+    about: Please report security vulnerabilities privately; do not use public issues.

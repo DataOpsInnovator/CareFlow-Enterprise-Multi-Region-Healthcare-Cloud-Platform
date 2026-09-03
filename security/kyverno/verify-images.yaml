@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata: {name: verify-careflow-images}
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+  - name: verify-image-signatures
+    match: {any: [{resources: {kinds: [Pod], namespaces: [careflow]}}]}
+    verifyImages:
+    - imageReferences: ["REPLACE_WITH_AWS_ACCOUNT_ID.dkr.ecr.*.amazonaws.com/careflow/*"]
+      mutateDigest: true
+      verifyDigest: true
+      required: true
+      attestors:
+      - entries:
+        - keyless:
+            subject: "https://github.com/REPLACE_WITH_GITHUB_ORG/REPLACE_WITH_GITHUB_REPO/.github/workflows/container.yml@refs/heads/main"
+            issuer: "https://token.actions.githubusercontent.com"
+            rekor: {url: https://rekor.sigstore.dev}

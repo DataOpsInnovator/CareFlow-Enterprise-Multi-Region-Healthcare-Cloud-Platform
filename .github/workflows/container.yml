@@ -1,0 +1,70 @@
+name: build-sign-attest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - '.github/workflows/container.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+  attestations: write
+
+concurrency:
+  group: container-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image:
+    name: Build ${{ matrix.service }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [patient-api, clinical-integrator, event-worker]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: github-container-build
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: services/${{ matrix.service }}
+          output-file: ${{ matrix.service }}.spdx.json
+
+      - name: Build image
+        env:
+          IMAGE: ${{ secrets.ECR_REGISTRY }}/careflow/${{ matrix.service }}:sha-${{ github.sha }}
+        run: docker build --pull -t "$IMAGE" "services/${{ matrix.service }}"
+
+      - name: Push image
+        env:
+          IMAGE: ${{ secrets.ECR_REGISTRY }}/careflow/${{ matrix.service }}:sha-${{ github.sha }}
+        run: docker push "$IMAGE"
+
+      - name: Sign image
+        env:
+          IMAGE: ${{ secrets.ECR_REGISTRY }}/careflow/${{ matrix.service }}:sha-${{ github.sha }}
+        run: cosign sign --yes "$IMAGE"
+
+      - name: Attest SBOM
+        env:
+          IMAGE: ${{ secrets.ECR_REGISTRY }}/careflow/${{ matrix.service }}:sha-${{ github.sha }}
+        run: cosign attest --yes --predicate "${{ matrix.service }}.spdx.json" --type spdxjson "$IMAGE"

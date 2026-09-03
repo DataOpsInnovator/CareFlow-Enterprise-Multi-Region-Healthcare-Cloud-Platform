@@ -1,0 +1,7 @@
+{
+  "event_id": "evt-synthetic-001",
+  "event_type": "synthetic.patient.updated",
+  "patient_id": "synthetic-001",
+  "source": "portfolio-simulator",
+  "sensitive_data": false
+}

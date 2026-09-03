@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: pip
+    directory: /services/patient-api
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: pip
+    directory: /services/clinical-integrator
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: pip
+    directory: /services/event-worker
+    schedule:
+      interval: weekly
