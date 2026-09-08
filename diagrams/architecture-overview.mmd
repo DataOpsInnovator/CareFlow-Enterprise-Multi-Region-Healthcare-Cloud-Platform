@@ -1,0 +1,64 @@
+flowchart TB
+    U[End Users / API Clients]
+    DNS[Amazon Route 53]
+    EDGE[CloudFront + WAF + TLS / Rate Controls]
+
+    U --> DNS --> EDGE
+
+    subgraph RA[Primary AWS Region]
+      ALBA[Application Load Balancer]
+      EKSA[Private Amazon EKS - 3 AZs]
+      APPA[Patient / Integration API]
+      WA[Worker]
+      AUR[Aurora PostgreSQL]
+      S3A[Amazon S3]
+      EBA[Amazon EventBridge]
+      SQSA[Amazon SQS + DLQ]
+      ALBA --> EKSA --> APPA
+      APPA --> AUR
+      APPA --> EBA --> SQSA --> WA
+      WA --> AUR
+      WA --> S3A
+    end
+
+    subgraph RB[Secondary AWS Region - Warm Standby]
+      ALBB[Application Load Balancer]
+      EKSB[Private Amazon EKS]
+      APPB[Standby API / Workers]
+      ALBB --> EKSB --> APPB
+    end
+
+    EDGE --> ALBA
+    EDGE -. failover traffic .-> ALBB
+
+    IAM[Identity & Access
+    GitHub OIDC / Short-lived IAM
+    EKS Pod Identity / Approved Roles]
+    SEC[Security Controls
+    Admission Policy / KMS / NetworkPolicy
+    Default Deny / Evidence]
+    OBS[Observability & SRE
+    OpenTelemetry / Prometheus / Alerts
+    SLOs / Burn-rate / Error Budgets]
+    CICD[Delivery Control Plane
+    GitHub Actions / Tests / Trivy / Checkov
+    SBOM / Cosign / GitOps]
+    ARGO[Argo CD]
+    TF[Terraform / IaC]
+
+    CICD --> ARGO
+    TF --> ARGO
+    ARGO --> EKSA
+    ARGO --> EKSB
+    IAM -. governs .-> CICD
+    IAM -. governs .-> EKSA
+    SEC -. protects .-> EKSA
+    SEC -. protects .-> AUR
+    OBS -. monitors .-> EKSA
+    OBS -. monitors .-> AUR
+
+    DR[Disaster Recovery
+    Warm Standby / Tested Recovery
+    RTO target <= 60m / RPO target <= 15m]
+    DR --> RB
+    DR -. controlled DNS failover .-> DNS
