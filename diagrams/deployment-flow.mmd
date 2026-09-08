@@ -1,0 +1,17 @@
+flowchart LR
+    DEV[Developer] --> PR[Pull Request]
+    PR --> CI[GitHub Actions]
+    CI --> TEST[Tests + Policy Validation]
+    TEST --> SCAN[Trivy + Checkov + Secret Scan]
+    SCAN --> BUILD[Build + SBOM]
+    BUILD --> SIGN[Cosign Image Signing / Attestation]
+    SIGN --> ECR[Amazon ECR]
+    ECR --> GITOPS[GitOps Revision]
+    GITOPS --> ARGO[Argo CD]
+    ARGO --> CANARY[Canary / Progressive Delivery]
+    CANARY --> VERIFY[Telemetry Verification]
+    VERIFY --> PROMOTE[Promote]
+    VERIFY -. failure .-> ROLLBACK[Rollback]
+    PROMOTE --> OBS[Observability + SLO Validation]
+
+    APPROVAL[Explicit Production Approval] --> ARGO

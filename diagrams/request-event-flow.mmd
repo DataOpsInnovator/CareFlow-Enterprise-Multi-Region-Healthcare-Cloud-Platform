@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant C as Client
+    participant R as Route 53
+    participant E as CloudFront/WAF
+    participant L as ALB
+    participant A as Patient API
+    participant D as Aurora PostgreSQL
+    participant B as EventBridge
+    participant Q as SQS
+    participant W as Worker
+    participant S as S3
+
+    C->>R: DNS resolution
+    R->>E: Active-region routing
+    E->>L: HTTPS request
+    L->>A: Forward request
+    A->>D: Transactional metadata
+    A->>B: Publish clinical event
+    B->>Q: Durable delivery
+    Q->>W: Event delivery
+    W->>W: Validate + deduplicate
+    W->>D: Persist processing state
+    W->>S: Store object/event artifact when applicable
+    W-->>Q: Delete after successful processing
