@@ -1,0 +1,21 @@
+flowchart TD
+    FAIL[Detect sustained regional customer impact] --> IC[Incident Commander evaluates evidence]
+    IC --> FREEZE[Freeze routine production changes]
+    FREEZE --> VALIDATE[Validate secondary infrastructure + data state]
+    VALIDATE --> SCALE[Scale secondary workloads]
+    SCALE --> ACTIVATE[Activate required consumers]
+    ACTIVATE --> DB[Promote / recover database state as applicable]
+    DB --> DNS[Change Route 53 traffic]
+    DNS --> SYNTH[Run synthetic patient/API + clinical-event transactions]
+    SYNTH --> MON[Monitor recovery]
+    MON --> REBUILD[Restore / rebuild primary]
+    REBUILD --> RETURN[Return traffic after validation + authorization]
+
+    VALIDATE -. invalid .-> ABORT[Abort recovery]
+    SYNTH -. failed .-> ABORT
+    ABORT --> ASSESS[Reassess data integrity + security risk]
+
+    TARGETS[RTO design target <= 60 min
+    RPO design target <= 15 min
+    Must be validated experimentally]
+    TARGETS -. governs .-> VALIDATE
