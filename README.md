@@ -1,7 +1,7 @@
 # CareFlow — Enterprise Healthcare Cloud Platform
 
-[![CI](https://github.com/DataOpsInnovator/careflow-enterprise-platform/actions/workflows/validate.yml/badge.svg)](https://github.com/DataOpsInnovator/careflow-enterprise-platform/actions/workflows/validate.yml)
-[![Security Gates](https://github.com/DataOpsInnovator/careflow-enterprise-platform/actions/workflows/security-gates.yaml/badge.svg)](https://github.com/DataOpsInnovator/careflow-enterprise-platform/actions/workflows/security-gates.yaml)
+[![CI](https://github.com/DataOpsInnovator/CareFlow-Enterprise-Multi-Region-Healthcare-Cloud-Platform/actions/workflows/validate.yml/badge.svg)](https://github.com/DataOpsInnovator/CareFlow-Enterprise-Multi-Region-Healthcare-Cloud-Platform/actions/workflows/validate.yml)
+[![Security Gates](https://github.com/DataOpsInnovator/CareFlow-Enterprise-Multi-Region-Healthcare-Cloud-Platform/actions/workflows/security-gates.yaml/badge.svg)](https://github.com/DataOpsInnovator/CareFlow-Enterprise-Multi-Region-Healthcare-Cloud-Platform/actions/workflows/security-gates.yaml)
 [![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/Cloud-AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![Kubernetes](https://img.shields.io/badge/Runtime-Kubernetes-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
