@@ -39,7 +39,7 @@ jobs:
         run: terraform fmt -recursive -check terraform
 
       - name: Terraform validation
-        run: ./scripts/terraform-validate.sh
+        run: bash ./scripts/terraform-validate.sh
 
       - name: Helm validation
         run: ./scripts/helm-lint.sh
