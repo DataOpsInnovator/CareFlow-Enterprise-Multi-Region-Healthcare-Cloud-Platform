@@ -17,6 +17,8 @@ concurrency:
 
 jobs:
   plan:
+    # Opt in only after configuring the OIDC role ARN secret and validating trust policy.
+    if: ${{ vars.AWS_TERRAFORM_PLAN_ENABLED == 'true' }}
     name: Validate ${{ matrix.stack }}
     runs-on: ubuntu-24.04
     strategy:
